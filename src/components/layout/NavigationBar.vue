@@ -1,5 +1,5 @@
 <template>
-  <nav class="navigation">
+  <nav class="navigation u-margin-bottom-big">
     <div class="navigation__container">
       <router-link to="/">
         <img
@@ -9,7 +9,7 @@
       /></router-link>
       <ul class="navigation__list">
         <li class="navigation__list-item">
-          <router-link class="navigation__list-item--link" to="/">Pokemons</router-link>
+          <router-link class="navigation__list-item--link" to="/pokemons">Pokemons</router-link>
         </li>
         <li class="navigation__list-item">
           <router-link class="navigation__list-item--link" to="/favorites">Favorites</router-link>
@@ -25,7 +25,8 @@
 <script setup></script>
 
 <style lang="scss">
-@import "../../assets/sass/variables";
+@import "@/assets/sass/utilities";
+@import "@/assets/sass/variables";
 
 .navigation {
   height: 4rem;
