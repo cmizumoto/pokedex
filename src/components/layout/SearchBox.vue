@@ -2,13 +2,14 @@
   <section class="search">
     <div class="search__container">
       <div class="search__form">
-        <button class="search__button">&#128269;</button>
+        <button v-on:click="handleSearch" class="search__button">&#128269;</button>
         <input
           type="text"
           class="search__input"
           id="search-poke"
           v-model="searchInput"
           placeholder="Search a pokemon"
+          @keyup.enter="handleSearch"
         />
         <label class="search__label" for="search-poke">Search a pokemon</label>
       </div>
@@ -17,9 +18,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useStorePokemons } from "../../stores/storePokemons";
 
 const searchInput = ref("");
+const storePokemons = useStorePokemons();
+
+watch(searchInput, () => {
+  if (searchInput.value.length > 0) {
+    storePokemons.updateSearch(searchInput.value);
+  }
+  if (searchInput.value.length < 1) {
+    storePokemons.getPokemons();
+  }
+});
+
+const handleSearch = () => {
+  storePokemons.getPokemon(storePokemons.searchQuery);
+  storePokemons.updateSearch(searchInput.value);
+};
 </script>
 
 <style lang="scss">

@@ -3,36 +3,49 @@ import { defineStore } from "pinia";
 export const useStorePokemons = defineStore("storePokemons", {
   state: () => {
     return {
+      searchQuery: "",
       pokemons: [],
       lastFetch: null,
       error: false,
+      limit: 12,
     };
   },
   actions: {
+    // Fetch multiple pokemons, limit is regulated in the state do not put high values to not overload the API
     async getPokemons() {
-      if (!this.shouldUpdate) {
-        return;
+      this.pokemons = [];
+      for (let i = 1; i <= this.limit; i++) {
+        await this.fetchPokemon(i);
       }
-      const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=48");
-      const responseData = await response.json();
+    },
+    // This fetch we specify by name or pokemon number
+    async getPokemon(query) {
+      this.pokemons = [];
+      await this.fetchPokemon(query);
+    },
+
+    // Main fetch method, fetch, create an object and save to the state
+    async fetchPokemon(pokemonSearch) {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSearch}/`);
+      const pokemonData = await response.json();
+      // Creating another array and objects with a better format for our component
+      const pokemon = {
+        id: pokemonData.id,
+        name: pokemonData.name,
+        abilities: pokemonData.abilities,
+        types: pokemonData.types,
+        image: pokemonData.sprites.other["official-artwork"].front_default,
+      };
 
       if (!response.ok) {
-        // error
+        console.log(error);
       }
 
-      const pokemons = [];
-      const responsedata = responseData.results;
-      // Creating another array and objects with a better format for our component
-      for (const key in responsedata) {
-        const pokemon = {
-          id: +key + 1,
-          name: responsedata[key].name,
-          url: responsedata[key].url,
-        };
-        pokemons.push(pokemon);
-      }
-      this.pokemons = pokemons;
-      this.lastFetch = new Date().getTime();
+      this.pokemons.push(pokemon);
+    },
+
+    updateSearch(query) {
+      this.searchQuery = query;
     },
   },
   getters: {
@@ -43,7 +56,7 @@ export const useStorePokemons = defineStore("storePokemons", {
       return state.pokemons && state.pokemons.length > 0;
     },
     /* 
-      Handle last fetch
+      Handle last fetch, don't know if i'm gonna use it
     */
     shouldUpdate(state) {
       const lastFetch = state.lastFetch;
