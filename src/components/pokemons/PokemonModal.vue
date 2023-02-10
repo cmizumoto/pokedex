@@ -2,7 +2,7 @@
   <teleport to="body">
     <div class="modal">
       <div class="modal__container">
-        <h4 class="modal__title">Bolbaman</h4>
+        <h4 class="modal__title">{{ pokemon.name }}</h4>
         <div class="modal__buttons">
           <button class="modal__button">&#9872;</button>
           <button class="modal__button" @click="closeModal">&#10005;</button>
@@ -10,20 +10,17 @@
         <div class="modal__content">
           <div class="modal__details-img">
             <span class="modal__details-img-hash"> # </span>
-            <span class="modal__details-img-number">01</span>
-            <img
-              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
-              alt=""
-            />
+            <span class="modal__details-img-number">{{ pokemonId }}</span>
+            <img :src="pokemon.image" alt="" />
           </div>
           <div class="modal__details-desc">
             <ul class="modal__list">
               Abilities:
-              <li>Loop here</li>
+              <li v-for="(abi, index) in pokemon.ability" :key="index">{{ abi.ability.name }}</li>
             </ul>
             <ul class="modal__list">
               Types:
-              <li>Loop Here</li>
+              <li v-for="(type, index) in pokemon.types" :key="index">{{ type.type.name }}</li>
             </ul>
           </div>
         </div>
@@ -34,9 +31,17 @@
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+import { defineEmits, ref, computed } from "vue";
+import { useStoreModal } from "@/stores/storeModal";
 
 const emit = defineEmits(["closeAction"]);
+const storeModal = useStoreModal();
+
+const pokemon = ref(storeModal.pokemonInfo);
+
+const pokemonId = computed(() => {
+  return String(pokemon.value.id).padStart(4, "0");
+});
 
 const closeModal = () => {
   emit("closeAction");
@@ -66,6 +71,7 @@ const closeModal = () => {
 
   &__title {
     text-align: center;
+    text-transform: capitalize;
     font-size: 2.5rem;
     font-weight: 100;
   }
@@ -131,11 +137,12 @@ const closeModal = () => {
 
   &__details-desc {
     width: 17rem;
-    text-align: center;
+    text-transform: capitalize;
+    padding-left: 6rem;
   }
 
   &__list {
-    list-style-type: none;
+    list-style-type: circle;
     margin-top: 1rem;
   }
 }

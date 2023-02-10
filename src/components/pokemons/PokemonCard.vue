@@ -14,10 +14,13 @@
 </template>
 
 <script setup>
+import { useStoreModal } from "@/stores/storeModal";
+
+const storeModal = useStoreModal();
 const props = defineProps(["id", "name", "types", "ability", "image"]);
 
 const propsInfo = () => {
-  console.log(props);
+  storeModal.saveCurrentPokemon(props);
 };
 </script>
 

@@ -24,5 +24,8 @@ export const useStoreModal = defineStore("storeModal", {
     modalStatus(state) {
       return state.isModalOpen;
     },
+    pokemonInfo(state) {
+      return state.pokemons;
+    },
   },
 });
