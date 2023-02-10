@@ -1,7 +1,8 @@
 <template>
   <teleport to="body">
     <div class="modal">
-      <div class="modal__container">
+      <div class="modal__background"></div>
+      <div class="modal__container" :class="pokemonType" ref="target">
         <h4 class="modal__title">{{ pokemon.name }}</h4>
         <div class="modal__buttons">
           <button class="modal__button">&#9872;</button>
@@ -24,7 +25,12 @@
             </ul>
           </div>
         </div>
-        <div class="modal__evolutions">loophere</div>
+        <div class="modal__evolutions">
+          Evolutions
+          <ul class="modal__evolutions-list">
+            <li class="modal__evolutions-item"></li>
+          </ul>
+        </div>
       </div>
     </div>
   </teleport>
@@ -33,6 +39,7 @@
 <script setup>
 import { defineEmits, ref, computed } from "vue";
 import { useStoreModal } from "@/stores/storeModal";
+import { onClickOutside } from "@vueuse/core";
 
 const emit = defineEmits(["closeAction"]);
 const storeModal = useStoreModal();
@@ -42,15 +49,32 @@ const pokemon = ref(storeModal.pokemonInfo);
 const pokemonId = computed(() => {
   return String(pokemon.value.id).padStart(4, "0");
 });
+const pokemonType = computed(() => {
+  return pokemon.value.types[0].type.name;
+});
 
 const closeModal = () => {
   emit("closeAction");
 };
+
+const target = ref(null);
+onClickOutside(target, (event) => closeModal());
 </script>
 
 <style lang="scss">
 @import "@/assets/sass/variables";
+@import "@/assets/sass/utilities";
 .modal {
+  &__background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgba($color-black, 0.5);
+  }
+
   &__container {
     position: fixed;
     top: 50%;
@@ -58,7 +82,6 @@ const closeModal = () => {
     transform: translate(-50%, -50%);
     padding: 2rem;
     border-radius: 5px;
-    background-color: #defde0;
     box-shadow: 0 1rem 2rem rgba($color-black, 0.8);
     background-image: linear-gradient(
       120deg,

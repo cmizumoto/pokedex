@@ -36,7 +36,6 @@ export const useStorePokemons = defineStore("storePokemons", {
         types: pokemonData.types,
         image: pokemonData.sprites.other["official-artwork"].front_default,
       };
-
       if (!response.ok) {
         console.log(error);
       }
