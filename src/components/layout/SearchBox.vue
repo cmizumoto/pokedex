@@ -2,12 +2,25 @@
   <section class="search">
     <div class="search__container">
       <div class="search__form">
-        <input type="text" class="search__input" id="search-poke" placeholder="Search a pokemon" />
+        <button class="search__button">&#128269;</button>
+        <input
+          type="text"
+          class="search__input"
+          id="search-poke"
+          v-model="searchInput"
+          placeholder="Search a pokemon"
+        />
         <label class="search__label" for="search-poke">Search a pokemon</label>
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+const searchInput = ref("");
+</script>
 
 <style lang="scss">
 @import "@/assets/sass/variables";
@@ -25,10 +38,28 @@
     padding: 1rem;
   }
 
+  &__button {
+    font-size: 1.95rem;
+    padding: 0.2rem;
+    border-radius: 3px;
+    border: none;
+    background-color: transparent;
+    transform: translateY(3rem);
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($color-black, 0.1);
+    }
+
+    &:active {
+      transform: translateY(3rem) scale(0.9);
+    }
+  }
+
   &__input {
     width: 80%;
     height: 3rem;
-    padding: 1rem 1rem;
+    padding: 1rem 3.5rem;
     font-size: 1.5rem;
     color: $color-black;
     background-color: $color-primary;
@@ -53,7 +84,7 @@
     color: rgba($color-black, 0.9);
     font-size: 1.2rem;
     font-weight: 700;
-    margin-left: 1.1rem;
+    margin-left: 3.5rem;
     margin-top: 0.4rem;
     display: block;
     transition: all 0.3s;
