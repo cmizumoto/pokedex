@@ -12,9 +12,6 @@
           <router-link class="navigation__list-item--link" to="/pokemons">Pokemons</router-link>
         </li>
         <li class="navigation__list-item">
-          <router-link class="navigation__list-item--link" to="/favorites">Favorites</router-link>
-        </li>
-        <li class="navigation__list-item">
           <router-link class="navigation__list-item--link" to="/resources">Resources</router-link>
         </li>
       </ul>

@@ -8,7 +8,7 @@
           <button class="modal__button">&#9872;</button>
           <button class="modal__button" @click="closeModal">&#10005;</button>
         </div>
-        <div class="modal__content">
+        <div class="modal__content u-margin-bottom-medium">
           <div class="modal__details-img">
             <span class="modal__details-img-hash"> # </span>
             <span class="modal__details-img-number">{{ pokemonId }}</span>
@@ -26,9 +26,16 @@
           </div>
         </div>
         <div class="modal__evolutions">
-          Evolutions
+          Evolutions:
           <ul class="modal__evolutions-list">
-            <li class="modal__evolutions-item"></li>
+            <li
+              class="modal__evolutions-item"
+              v-for="(pokemonEvo, index) in pokemonsEvo"
+              :key="index"
+              @click="changeModal"
+            >
+              {{ pokemonEvo }}
+            </li>
           </ul>
         </div>
       </div>
@@ -39,10 +46,12 @@
 <script setup>
 import { defineEmits, ref, computed } from "vue";
 import { useStoreModal } from "@/stores/storeModal";
+import { useStorePokemons } from "@/stores/storePokemons";
 import { onClickOutside } from "@vueuse/core";
 
 const emit = defineEmits(["closeAction"]);
 const storeModal = useStoreModal();
+const storePokemons = useStorePokemons();
 
 const pokemon = ref(storeModal.pokemonInfo);
 
@@ -53,12 +62,38 @@ const pokemonType = computed(() => {
   return pokemon.value.types[0].type.name;
 });
 
+// Not ideal, wanted to only change the modal, but I'll need a bit more time to refactor the code
+const changeModal = async (event) => {
+  await storePokemons.getPokemon(event.currentTarget.innerHTML);
+  closeModal();
+};
+
+/* 
+    Modal Close Functions
+*/
 const closeModal = () => {
   emit("closeAction");
 };
 
 const target = ref(null);
 onClickOutside(target, (event) => closeModal());
+
+/* 
+    Fetching evolution chain
+*/
+const loadChain = async () => {
+  try {
+    await storeModal.getEvolutions();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+loadChain();
+
+const pokemonsEvo = computed(() => {
+  return storeModal.pokemonsEvolutions.reverse();
+});
 </script>
 
 <style lang="scss">
@@ -159,6 +194,7 @@ onClickOutside(target, (event) => closeModal());
   }
 
   &__details-desc {
+    font-size: 1.3rem;
     width: 17rem;
     text-transform: capitalize;
     padding-left: 6rem;
@@ -167,6 +203,32 @@ onClickOutside(target, (event) => closeModal());
   &__list {
     list-style-type: circle;
     margin-top: 1rem;
+  }
+
+  &__evolutions-list {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  &__evolutions-item {
+    font-size: 1.3rem;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:not(:last-child)::after {
+      content: "\21D2";
+      padding-left: 30%;
+    }
+
+    &:hover {
+      color: $color-secondary;
+    }
+    &:active {
+      color: $color-tertiary;
+    }
   }
 }
 </style>
