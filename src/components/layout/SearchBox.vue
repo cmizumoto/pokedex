@@ -74,7 +74,7 @@ const handleSearch = () => {
   }
 
   &__input {
-    width: 80%;
+    width: 100%;
     height: 3rem;
     padding: 1rem 3.5rem;
     font-size: 1.5rem;

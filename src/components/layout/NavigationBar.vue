@@ -7,6 +7,7 @@
           alt=""
           class="navigation__logo"
       /></router-link>
+
       <ul class="navigation__list">
         <li class="navigation__list-item">
           <router-link class="navigation__list-item--link" to="/pokemons">Pokemons</router-link>
@@ -18,8 +19,6 @@
     </div>
   </nav>
 </template>
-
-<script setup></script>
 
 <style lang="scss">
 @import "@/assets/sass/utilities";

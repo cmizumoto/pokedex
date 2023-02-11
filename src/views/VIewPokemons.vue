@@ -1,22 +1,27 @@
 <template>
-  <SearchBox />
-  <div class="pokemon__container">
-    <PokemonCard
-      v-for="pokemon in pokemonsList"
-      :key="pokemon.id"
-      :id="pokemon.id"
-      :name="pokemon.name"
-      :types="pokemon.types"
-      :ability="pokemon.abilities"
-      :image="pokemon.image"
-      @click="openModal"
-    />
+  <div>
+    <SearchBox />
+    <div class="pokemon__container">
+      <PokemonCard
+        v-for="pokemon in pokemonsList"
+        :key="pokemon.id"
+        :id="pokemon.id"
+        :name="pokemon.name"
+        :types="pokemon.types"
+        :ability="pokemon.abilities"
+        :image="pokemon.image"
+        @click="openModal"
+      />
+    </div>
+    <div>
+      <h3 v-if="pokemonsList.length <= 1">{{ error }}</h3>
+    </div>
+    <PokemonModal v-if="isModalOpen" @closeAction="handleClose" />
   </div>
-  <PokemonModal v-if="isModalOpen" @closeAction="handleClose" />
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import SearchBox from "@/components/layout/SearchBox.vue";
 import PokemonCard from "@/components/pokemons/PokemonCard.vue";
 import PokemonModal from "@/components/pokemons/PokemonModal.vue";
@@ -25,6 +30,7 @@ import { useStoreModal } from "@/stores/storeModal";
 
 const storePokemons = useStorePokemons();
 const storeModal = useStoreModal();
+const error = ref(null);
 
 /* 
   Modal handler
@@ -55,7 +61,7 @@ const loadPokemons = async () => {
   try {
     await storePokemons.getPokemons();
   } catch (err) {
-    console.log(err);
+    console.log("this error is in views pokeons");
   }
 };
 loadPokemons();

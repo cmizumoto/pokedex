@@ -6,7 +6,6 @@ export const useStorePokemons = defineStore("storePokemons", {
       searchQuery: "",
       pokemons: [],
       lastFetch: null,
-      error: false,
       limit: 12,
     };
   },
@@ -26,21 +25,22 @@ export const useStorePokemons = defineStore("storePokemons", {
 
     // Main fetch method, fetch, create an object and save to the state
     async fetchPokemon(pokemonSearch) {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSearch}/`);
-      const pokemonData = await response.json();
-      // Creating another array and objects with a better format for our component
-      const pokemon = {
-        id: pokemonData.id,
-        name: pokemonData.name,
-        abilities: pokemonData.abilities,
-        types: pokemonData.types,
-        image: pokemonData.sprites.other["official-artwork"].front_default,
-      };
-      if (!response.ok) {
-        console.log(error);
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSearch}/`);
+        const pokemonData = await response.json();
+        // Creating another array and objects with a better format for our component
+        const pokemon = {
+          id: pokemonData.id,
+          name: pokemonData.name,
+          abilities: pokemonData.abilities,
+          types: pokemonData.types,
+          image: pokemonData.sprites.other["official-artwork"].front_default,
+        };
+        this.pokemons.push(pokemon);
+      } catch (err) {
+        console.log("BIG ERROR IN STORE POKEMONS FETCH POKENMOSN");
+        throw err;
       }
-
-      this.pokemons.push(pokemon);
     },
 
     updateSearch(query) {
@@ -53,6 +53,9 @@ export const useStorePokemons = defineStore("storePokemons", {
     },
     hasPokemonsList(state) {
       return state.pokemons && state.pokemons.length > 0;
+    },
+    hasError(state) {
+      return state.error;
     },
     /* 
       Handle last fetch, don't know if i'm gonna use it

@@ -37,12 +37,22 @@ export const useStoreModal = defineStore("storeModal", {
           if (isObject(obj[value])) {
             pokemonProps(obj[value]);
           } else {
-            if (value === "name" && obj[value] !== "level-up") {
+            if (
+              value === "name" &&
+              obj[value] !== "level-up" &&
+              obj[value] !== "use-item" &&
+              obj[value] !== "trade"
+            ) {
               pokemonEvolution.push(obj[value]);
             }
           }
         }
       };
+
+      if (!response.ok) {
+        const error = new Error(responseData.message || "Failed to get evolution chain");
+        throw error;
+      }
       pokemonProps(responseData.chain);
       this.evolutions = pokemonEvolution;
     },
