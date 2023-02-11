@@ -238,6 +238,13 @@ const pokemonsEvo = computed(() => {
       max-width: 30rem;
       padding-left: 1rem;
     }
+
+    @media only screen and (max-width: 600px) {
+      padding-left: 0;
+      flex-direction: column;
+      align-items: center;
+      max-width: 22rem;
+    }
   }
 
   &__list {
@@ -269,11 +276,21 @@ const pokemonsEvo = computed(() => {
     font-size: 1.3rem;
     text-transform: capitalize;
     cursor: pointer;
+    padding-bottom: 1rem;
     transition: all 0.2s;
+
+    @media only screen and (max-width: 600px) {
+      font-size: 1rem;
+    }
 
     &:not(:last-child)::after {
       content: "\21D2";
       padding-left: 30%;
+
+      @media only screen and (max-width: 600px) {
+        content: "";
+        padding-left: 0;
+      }
     }
 
     &:hover {
