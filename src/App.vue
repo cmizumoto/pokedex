@@ -18,7 +18,7 @@ import NavigationBar from "@/components/layout/NavigationBar.vue";
 .app {
   &__container {
     margin: 0 auto;
-    width: $container-width-desktop;
+    max-width: $container-width-desktop;
   }
 }
 

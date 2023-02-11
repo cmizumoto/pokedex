@@ -53,6 +53,10 @@ const handleSearch = () => {
   &__container {
     width: 50%;
     padding: 1rem;
+
+    @media only screen and (max-width: 900px) {
+      width: 80%;
+    }
   }
 
   &__button {
@@ -86,6 +90,10 @@ const handleSearch = () => {
     display: block;
     transition: all 0.3s;
 
+    @media only screen and (max-width: 900px) {
+      font-size: 1.2rem;
+    }
+
     &::-webkit-input-placeholder {
       color: $color-black;
     }
@@ -105,6 +113,10 @@ const handleSearch = () => {
     margin-top: 0.4rem;
     display: block;
     transition: all 0.3s;
+
+    @media only screen and (max-width: 900px) {
+      font-size: 1rem;
+    }
   }
 
   &__input:placeholder-shown + &__label {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pokemon">
     <SearchBox />
     <div class="pokemon__container">
       <PokemonCard
@@ -74,8 +74,12 @@ loadPokemons();
 @import "@/assets/sass/variables";
 
 .pokemon {
+  max-width: $container-width-desktop;
+  display: block;
+  margin: 0 auto;
+
   &__container {
-    max-width: $container-width-desktop;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-content: center;

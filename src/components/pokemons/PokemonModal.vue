@@ -140,6 +140,15 @@ const pokemonsEvo = computed(() => {
       transparent 55%
     );
     transition: all 0.2s;
+
+    @media only screen and (max-width: 600px) {
+      top: 0;
+      transform: translate(-50%, -50%);
+      padding: 0;
+    }
+    @media only screen and (max-width: 900px) {
+      top: 50%;
+    }
   }
 
   &__title {
@@ -183,12 +192,16 @@ const pokemonsEvo = computed(() => {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+    }
   }
 
   &__details-img {
     position: relative;
     & img {
-      width: 20rem;
+      max-width: 20rem;
     }
 
     &-hash {
@@ -214,12 +227,17 @@ const pokemonsEvo = computed(() => {
 
   &__details-desc {
     font-size: 1.3rem;
-    width: 40rem;
+    width: 30rem;
     text-transform: capitalize;
     padding-left: 6rem;
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
+
+    @media only screen and (max-width: 900px) {
+      max-width: 30rem;
+      padding-left: 1rem;
+    }
   }
 
   &__list {
