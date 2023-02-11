@@ -35,10 +35,12 @@ export const useStorePokemons = defineStore("storePokemons", {
           abilities: pokemonData.abilities,
           types: pokemonData.types,
           image: pokemonData.sprites.other["official-artwork"].front_default,
+          height: pokemonData.height,
+          weight: pokemonData.weight,
+          stats: pokemonData.stats,
         };
         this.pokemons.push(pokemon);
       } catch (err) {
-        console.log("BIG ERROR IN STORE POKEMONS FETCH POKENMOSN");
         throw err;
       }
     },

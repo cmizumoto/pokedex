@@ -17,9 +17,10 @@
 import { useStoreModal } from "@/stores/storeModal";
 
 const storeModal = useStoreModal();
-const props = defineProps(["id", "name", "types", "ability", "image"]);
+const props = defineProps(["id", "name", "types", "ability", "height", "weight", "stats", "image"]);
 
 const propsInfo = () => {
+  console.log(props);
   storeModal.saveCurrentPokemon(props);
 };
 </script>

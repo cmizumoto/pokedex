@@ -10,6 +10,9 @@
         :types="pokemon.types"
         :ability="pokemon.abilities"
         :image="pokemon.image"
+        :weight="pokemon.weight"
+        :height="pokemon.height"
+        :stats="pokemon.stats"
         @click="openModal"
       />
     </div>

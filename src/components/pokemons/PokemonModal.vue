@@ -13,16 +13,31 @@
             <span class="modal__details-img-hash"> # </span>
             <span class="modal__details-img-number">{{ pokemonId }}</span>
             <img :src="pokemon.image" alt="" />
+            <div class="modal__physical">
+              <p>
+                Height: <span>{{ pokemon.height }}</span> Weight: <span>{{ pokemon.weight }}</span>
+              </p>
+            </div>
           </div>
           <div class="modal__details-desc">
-            <ul class="modal__list">
-              Abilities:
-              <li v-for="(abi, index) in pokemon.ability" :key="index">{{ abi.ability.name }}</li>
-            </ul>
-            <ul class="modal__list">
-              Types:
-              <li v-for="(type, index) in pokemon.types" :key="index">{{ type.type.name }}</li>
-            </ul>
+            <div class="modal__list">
+              <ul class="modal__stats">
+                Stats:
+                <li v-for="(sta, index) in pokemon.stats" :key="index">
+                  {{ sta.stat.name }}: {{ sta.base_stat }}
+                </li>
+              </ul>
+            </div>
+            <div class="modal__list">
+              <ul class="modal__stat-sub">
+                Abilities:
+                <li v-for="(abi, index) in pokemon.ability" :key="index">{{ abi.ability.name }}</li>
+              </ul>
+              <ul class="modal__stat-sub">
+                Types:
+                <li v-for="(type, index) in pokemon.types" :key="index">{{ type.type.name }}</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="modal__evolutions">
@@ -44,7 +59,7 @@
 </template>
 
 <script setup>
-import { defineEmits, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { useStoreModal } from "@/stores/storeModal";
 import { useStorePokemons } from "@/stores/storePokemons";
 import { onClickOutside } from "@vueuse/core";
@@ -173,7 +188,7 @@ const pokemonsEvo = computed(() => {
   &__details-img {
     position: relative;
     & img {
-      width: 17rem;
+      width: 20rem;
     }
 
     &-hash {
@@ -193,11 +208,18 @@ const pokemonsEvo = computed(() => {
     }
   }
 
+  &__physical {
+    text-align: center;
+  }
+
   &__details-desc {
     font-size: 1.3rem;
-    width: 17rem;
+    width: 40rem;
     text-transform: capitalize;
     padding-left: 6rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
   }
 
   &__list {
@@ -205,7 +227,20 @@ const pokemonsEvo = computed(() => {
     margin-top: 1rem;
   }
 
+  &__stat-sub {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__evolutions {
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
   &__evolutions-list {
+    padding-top: 1rem;
     list-style-type: none;
     display: flex;
     align-items: center;
