@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import ViewPokemons from "@/views/ViewPokemons.vue";
+import ViewPokemon from "@/views/ViewPokemon.vue";
 import ViewResources from "@/views/ViewResources.vue";
 
 const routes = [
   {
     path: "/",
     name: "pokemons",
-    component: ViewPokemons,
+    component: ViewPokemon,
     alias: "/pokemons",
   },
   {
